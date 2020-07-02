@@ -30,7 +30,6 @@ echo $this->session->flashdata('msg');
             <th  style="text-align: center">Nama Perencanaan</th>
             <th  style="text-align: center">Ketua Kegiatan</th>
             <th  style="text-align: center">Tahun</th>
-            <th  style="text-align: center">Tingkat Kegiatan</th>
             <th  style="text-align: center">Rencana Dimulai</th>
             <th  style="text-align: center">Rencana Selesai</th>
             <th  style="text-align: center">Dana Anggaran</th>
@@ -49,7 +48,6 @@ echo $this->session->flashdata('msg');
           <td><?php echo $baris->pelaksana_kegiatan; ?></td>
           <td><?php echo $baris->nama_kegiatan; ?></td>
           <td><?php echo $baris->tahun; ?></td>
-          <td><?php echo $baris->nama_dusun; ?></td>
           <td><?php echo $baris->tgl_rka_belanja; ?></td>
           <td><?php echo $baris->selesai; ?></td>
           <td><span style="margin-left:-8px;">Rp.</span><span style="float:right;margin-right:-7px;"><?php echo number_format($baris->anggaran,0,",","."); ?>,-</span></td>
@@ -73,7 +71,7 @@ echo $this->session->flashdata('msg');
     </tbody>
     <tfoot>
       <tr>
-        <th colspan="8" style="text-align:right">Total Pengeluaran :</th>
+        <th colspan="6" style="text-align:right">Total Pengeluaran :</th>
         <th><span style="margin-left:-8px;">Rp.</span><span style="float:right;margin-right:-7px;"><?php echo number_format($total_anggaran,0,",","."); ?>,-</span></th>
         <th></th>
       </tr>

@@ -65,7 +65,7 @@
                   <a href="<?php echo site_url('admin/c_perencanaan/rka_pendapatan/');?>" >RKA Pendapatan</a>
                 </li>
                 <li id="nav-apb-desa" class="">
-                  <a href="<?php echo site_url('admin/c_perencanaan/apb_desa/');?>" >Pembiayaan Desa</a>
+                  <a href="<?php echo site_url('admin/c_perencanaan/apb_desa/');?>" >Pelaksanaan Dana Cadangan</a>
                 </li>
               </ul>
             </div>
@@ -77,6 +77,9 @@
               <ul id="" class="nav nav-pills nav-stacked nav-second-level">
                 <li id="nav-rab" class="">
                   <a href="<?php echo site_url('admin/c_pelaksanaan/rab/');?>" >Pelaksanaan Kegiatan</a>
+                </li>
+                <li id="nav-pls-pendapatan" class="">
+                  <a href="<?php echo site_url('admin/c_pelaksanaan/pls_pendapatan/');?>" >Pelaksanaan Pendapatan</a>
                 </li>
               </ul>
             </div>

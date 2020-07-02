@@ -42,21 +42,16 @@ class M_Grafik extends CI_Model {
     public function getKrajan()
     {
         foreach ($this->getTahun() as $key) {
-            $query[] = $this->db->query("SELECT anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '4' and tahun =".$key['tahun'])->row_array();
-            $x = array('anggaran' => '0', 'tahun' => $key['tahun']);
-            if (end($query) == null) $query[end((array_keys($query)))] = $x;
-            // print_r(end($query));
-            // echo '<br>';
+            $query[] = $this->db->query("SELECT id_dusun,anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '4' and tahun =".$key['tahun'])->row_array();
         }
+        // var_dump($query);
         return $query;
     }
 
     public function getDukut()
     {
         foreach ($this->getTahun() as $key) {
-            $query[] = $this->db->query("SELECT anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '5' and tahun =".$key['tahun'])->row_array();
-            $x = array('anggaran' => '0', 'tahun' => $key['tahun']);
-            if (end($query) == null) $query[end((array_keys($query)))] = $x;
+            $query[] = $this->db->query("SELECT id_dusun,anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '5' and tahun =".$key['tahun'])->row_array();
         }
         return $query;
     }
@@ -64,9 +59,7 @@ class M_Grafik extends CI_Model {
     public function getDukse()
     {
         foreach ($this->getTahun() as $key) {
-            $query[] = $this->db->query("SELECT anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '6' and tahun =".$key['tahun'])->row_array();
-            $x = array('anggaran' => '0', 'tahun' => $key['tahun']);
-            if (end($query) == null) $query[end((array_keys($query)))] = $x;
+            $query[] = $this->db->query("SELECT id_dusun,anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '6' and tahun =".$key['tahun'])->row_array();
         }
         return $query; 
     }
@@ -74,9 +67,7 @@ class M_Grafik extends CI_Model {
     public function getNgadirejo()
     {
         foreach ($this->getTahun() as $key) {
-            $query[] = $this->db->query("SELECT anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '7' and tahun =".$key['tahun'])->row_array();
-            $x = array('anggaran' => '0', 'tahun' => $key['tahun']);
-            if (end($query) == null) $query[end((array_keys($query)))] = $x;
+            $query[] = $this->db->query("SELECT id_dusun,anggaran,tahun from tbl_rka_belanja WHERE id_dusun = '7' and tahun =".$key['tahun'])->row_array();
         }
         return $query;
     }

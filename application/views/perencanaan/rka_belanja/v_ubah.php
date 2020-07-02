@@ -24,6 +24,31 @@
 			<input type="hidden" name="id" value="<?php echo $hasil->id_rka_belanja; ?>">
 			<!-- <input type="hidden" name="id_nomor" value="<?php echo $hasil->nomor; ?>">
 					<input type="hidden" name="id" value="<?php echo $hasil->tahun; ?>"> -->
+			
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="pelaksana_kegiatan">Nama Kegiatan</label>
+				<div class="col-md-8">
+					<input type="text" class="form-control input-md" name="pelaksana_kegiatan" value="<?php echo $hasil->pelaksana_kegiatan; ?>" id="pelaksana_kegiatan" size="100" placeholder="Jenis" required/>
+					<span>&nbsp;</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
+				<div class="col-md-8">
+					<select class="form-control cari_kegiatan" name="id_kegiatan" required>
+						<option value=""></option>
+						<?php
+						foreach ($v_kegiatan->result() as $baris) { ?>
+							<option value="<?php echo $baris->id_kegiatan; ?>" <?php if ($hasil->id_kegiatan == $baris->id_kegiatan) {
+																					echo "selected";
+																				} ?>><?php echo $baris->nama_kegiatan; ?></option>
+						<?php
+						} ?>
+					</select>
+					<span>&nbsp;</span>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="id_bidang">Bidang</label>
 				<div class="col-md-8">
@@ -56,22 +81,7 @@
 					<span>&nbsp;</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
-				<div class="col-md-8">
-					<select class="form-control cari_kegiatan" name="id_kegiatan" required>
-						<option value=""></option>
-						<?php
-						foreach ($v_kegiatan->result() as $baris) { ?>
-							<option value="<?php echo $baris->id_kegiatan; ?>" <?php if ($hasil->id_kegiatan == $baris->id_kegiatan) {
-																					echo "selected";
-																				} ?>><?php echo $baris->nama_kegiatan; ?></option>
-						<?php
-						} ?>
-					</select>
-					<span>&nbsp;</span>
-				</div>
-			</div>
+			
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="tahun">Tahun</label>
 				<div class="col-md-8">
@@ -105,13 +115,6 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="pelaksana_kegiatan">Keterangan</label>
-				<div class="col-md-8">
-					<textarea name="pelaksana_kegiatan" rows="3" cols="80" class="form-control" placeholder="Keterangan" required><?php echo $hasil->pelaksana_kegiatan; ?></textarea>
-					<span>&nbsp;</span>
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-md-4 control-label" for="tgl_rka_belanja">Rencana Dilaksanakan</label>
 				<div class="col-md-8">
 					<input type="text" class="form-control input-md" name="tgl_rka_belanja" id="tgl_rka_belanja" value="<?php if ($hasil->tgl_rka_belanja == '') {
@@ -141,7 +144,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<div class="image-editor ">
 					<label class="col-md-4 control-label" for="bukti">Bukti Belanja</label>
 					<div class="col-md-8">
@@ -157,7 +160,7 @@
 					</div>
 
 				</div>
-			</div>
+			</div> -->
 
 			<hr>
 			<div class="form-group">

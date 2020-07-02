@@ -1,7 +1,7 @@
-
 <script type="text/javascript" src="<?=$this->config->item('base_url');?>assetku/js/jquery.maskMoney.min.js"></script>
 <link href="<?=$this->config->item('base_url');?>assetku/css/select2.min.css" rel="stylesheet" />
 <script src="<?=$this->config->item('base_url');?>assetku/js/select2.min.js"></script>
+<script src="<?=$this->config->item('base_url');?>assetku/js/jquery-ui.js"></script>
 
 <h2><?= $page_title ?></h2>
 
@@ -22,7 +22,27 @@
 
 			<?php echo form_open('admin/c_perencanaan/simpan_rka_belanja'); ?>
 
-
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="pelaksana_kegiatan">Nama Kegiatan</label>
+					 <div class="col-md-8">
+						<input type="text" class="form-control input-md" name="pelaksana_kegiatan" id="pelaksana_kegiatan" size="10" placeholder="Nama Kegiatan" required/>
+						<span>&nbsp;</span>
+						</div>
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
+						<div class="col-md-8">
+						<select class="form-control cari_kegiatan" name="id_kegiatan" required>
+								<option value=""></option>
+								<?php
+								foreach ($v_kegiatan->result() as $baris) {?>
+									<option value="<?php echo $baris->id_kegiatan; ?>"><?php echo $baris->nama_kegiatan; ?></option>
+								<?php
+								} ?>
+							</select>
+						 <span>&nbsp;</span>
+ 						</div>
+				</div>
 			    <div class="form-group">
 			    	 <label  class="col-md-4 control-label" for="id_bidang">Bidang</label>
 			        <div class="col-md-8">
@@ -64,19 +84,6 @@
 						 </select>
 						 <span>&nbsp;</span>
  						</div>
-				</div><div class="form-group">
-					 <label  class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
-						<div class="col-md-8">
-						<select class="form-control cari_kegiatan" name="id_kegiatan" required>
-								<option value=""></option>
-								<?php
-								foreach ($v_kegiatan->result() as $baris) {?>
-									<option value="<?php echo $baris->id_kegiatan; ?>"><?php echo $baris->nama_kegiatan; ?></option>
-								<?php
-								} ?>
-							</select>
-						 <span>&nbsp;</span>
- 						</div>
 				</div>
 				<div class="form-group">
 					 <label  class="col-md-4 control-label" for="id_dusun">Tingkat Kegiatan</label>
@@ -92,13 +99,7 @@
 						 <span>&nbsp;</span>
  						</div>
 				</div>
-				<div class="form-group">
-					 <label  class="col-md-4 control-label" for="pelaksana_kegiatan">Keterangan</label>
-						<div class="col-md-8">
-							<textarea name="pelaksana_kegiatan" rows="3" cols="80" class="form-control" placeholder="Uraian Kegiatan" required></textarea>
-						<span>&nbsp;</span>
-						</div>
-				</div>
+				
 				<div class="form-group">
 					 <label  class="col-md-4 control-label" for="tgl_rka_belanja">Rencana Dilaksanakan</label>
 					 <div class="col-md-8">
@@ -134,12 +135,12 @@
 
 	<?php echo form_close(); ?>
 </div>
-
+<!-- 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="<?php echo base_url();?>bootstrap/js/bootstrap.min.js"></script>
 
-
+ -->
 <script>
 function nav_active(){
 	document.getElementById("a-perencanaan").className = "collapsed active";

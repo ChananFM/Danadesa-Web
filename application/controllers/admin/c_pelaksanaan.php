@@ -442,170 +442,224 @@ class C_pelaksanaan extends CI_Controller {
     # code...
   }
 
-  //spp
-  function spp($aksi='',$id='') {
+  //pendapatan
+    function pls_pendapatan($aksi='',$id='')    {
     $session['hasil'] = $this->session->userdata('logged_in');
     $role = $session['hasil']->role;
     if($this->session->userdata('logged_in') AND $role == 'Administrator')
     {
       if ($aksi == 'add') {
-        $this->add_spp();
+        $this->add_rka_pendapatan();
       }elseif ($aksi == 'print') {
-        $this->print_spp();
+        $this->print_rka_pendapatan();
       }else {
-        $this->lists_spp();
+        $this->lists_rka_pendapatan();
+      }
+    }else{
+      redirect('c_login', 'refresh');
+    }
+    }
+
+    function lists_rka_pendapatan() {
+         $data['page_title'] = 'DATA PELAKSANAAN PENDAPATAN';
+        $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_rka_pendapatan.id_kegiatan', 'left');
+          $this->db->order_by('id_rka_pendapatan', 'DESC');
+        $data['v_data'] = $this->db->get('tbl_rka_pendapatan');
+        $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
+        $data['content'] = $this->load->view('pelaksanaan/pls_pendapatan/v_list', $data, TRUE);
+          $this->load->view('utama', $data);
+    }
+
+      //deail pendapatan
+    function detail_pnd($aksi='') {
+    $session['hasil'] = $this->session->userdata('logged_in');
+    $role = $session['hasil']->role;
+    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    {
+      if ($aksi == 'add') {
+        // var_dump($id);
+        $this->add_detail_pnd();
+      }elseif ($aksi == 'print') {
+        $this->print_detail_pnd();
+      }else {
+        $this->lists_detail_pnd($aksi);
       }
     }else redirect('c_login', 'refresh');
   }
 
-  function lists_spp() {
-      $data['page_title'] = 'Surat Permintaan Pembayaran (SPP)';
-      $this->db->join('tbl_bidang', 'tbl_bidang.id_bidang=tbl_spp.id_bidang');
-      $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_spp.id_kegiatan');
-      $this->db->order_by('id_spp', 'DESC');
-      $data['v_data'] = $this->db->get('tbl_spp');
-      $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-      $data['content'] = $this->load->view('pelaksanaan/spp/v_list', $data, TRUE);
-      $this->load->view('utama', $data);
-  }
-
-  function add_spp(){
-    $session['hasil'] = $this->session->userdata('logged_in');
-    $role = $session['hasil']->role;
-    if($this->session->userdata('logged_in') AND $role == 'Administrator')
-    {
-      $data['page_title'] = 'Tambah Surat Permintaan Pembayaran (SPP)';
-      $this->db->order_by('nama_bidang', 'ASC');
-      $data['v_bidang'] = $this->db->get('tbl_bidang');
-      $this->db->order_by('nama_kegiatan', 'ASC');
-      $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
-      $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-      $data['content'] = $this->load->view('pelaksanaan/spp/v_tambah', $data, TRUE);
-      $this->load->view('utama', $data);
-    }else redirect('c_login', 'refresh');
-  }
-
-  function simpan_spp() {
-    $session['hasil'] = $this->session->userdata('logged_in');
-    $role = $session['hasil']->role;
-    if($this->session->userdata('logged_in') AND $role == 'Administrator')
-    {
-            if (isset($_POST['simpan'])) {
-                $pencairan = $this->input->post('pencairan');
-                if ($pencairan == '') {
-                  $pencairan = 0;
-                }
-                $data = array(
-                  'tgl'                => $this->input->post('tgl'),
-                  'id_bidang'          => $this->input->post('id_bidang'),
-                  'id_kegiatan'        => $this->input->post('id_kegiatan'),
-                  'pemasukkan'         => preg_replace('/[Rp. ]/', '', $this->input->post('pemasukkan')),
-                  'pencairan'          => preg_replace('/[Rp. ]/', '', $pencairan),
-                  'permintaan'         => preg_replace('/[Rp. ]/', '', $this->input->post('permintaan')),
-                  'jumlah'             => preg_replace('/[Rp. ]/', '', $this->input->post('jumlah')),
-                  'sisa_dana'          => preg_replace('/[Rp. ]/', '', $this->input->post('sisa_dana')),
-                  'tgl_spp'            => date('d-m-Y')
-                );
-                $this->db->insert("tbl_spp", $data);
-                $this->session->set_flashdata('msg',
-                  '
-                  <div class="alert alert-success alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
-                      </button>
-                      <strong>Sukses!</strong> Berhasil ditambah.
-                  </div>'
-                );
-            }
-            redirect('admin/c_pelaksanaan/spp');
-    }else
-      redirect('c_login', 'refresh');
-  }
-
-  function edit_spp($id=''){
+  function lists_detail_pnd($id=''){
       $session['hasil'] = $this->session->userdata('logged_in');
       $role = $session['hasil']->role;
       if($this->session->userdata('logged_in') AND $role == 'Administrator')
       {
-        $data['hasil'] = $this->db->get_where("tbl_spp", array('id_spp' => "$id"))->row();
-
-        $data['page_title'] = 'EDIT Surat Permintaan Pembayaran (SPP)';
-        $this->db->order_by('nama_bidang', 'ASC');
-        $data['v_bidang'] = $this->db->get('tbl_bidang');
+        // $data['hasil'] = $this->db->get_where("tbl_pelaksanaan", array('id_pelaksanaan' => "$id"))->row();
+        $data['pnd'] = $this->db->get_where('tbl_detail_pendapatan',array('id_rka_pendapatan'=>"$id"));
+        $this->db->order_by('id_rka_pendapatan', 'ASC');
+        $data['v_rka_pendapatan'] = $this->db->get('tbl_rka_pendapatan');
+        $data['page_title'] = 'Rencana Anggaran Biaya';
         $this->db->order_by('nama_kegiatan', 'ASC');
         $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
         $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-        $data['content'] = $this->load->view('pelaksanaan/spp/v_ubah', $data, TRUE);
+        $data['id'] = $id;
+        $data['content'] = $this->load->view('pelaksanaan/pls_pendapatan/pnd_detail/v_list', $data, TRUE);
 
         $this->load->view('utama', $data);
       }else
         redirect('c_login', 'refresh');
   }
 
-  function update_spp() {
+  public function add_detail_pnd()
+  {
     $session['hasil'] = $this->session->userdata('logged_in');
-    $id = $this->input->post('id');
+    $data['idp'] = $this->page_model->getId();
+    $role = $session['hasil']->role;
+    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    {
+      // var_dump($this->input->post('id_pelaksanaan'));
+      // echo $this->input->post('id_pelaksanaan');
+      $data['page_title'] = 'Rencana Anggaran Biaya';
+      $this->db->order_by('id_rka_belanja', 'ASC');
+      $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
+      $this->db->order_by('nama_bidang', 'ASC');
+      $data['v_bidang'] = $this->db->get('tbl_bidang');
+      $this->db->order_by('nama_program', 'ASC');
+      $data['v_program'] = $this->db->get('tbl_program');
+      $this->db->order_by('nama_kegiatan', 'ASC');
+      $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
+      $this->db->order_by('nama_dusun', 'ASC');
+      $data['v_dusun'] = $this->db->get('ref_dusun');
+      $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
+      $data['id'] = $this->input->post('id_rka_belanja');
+      $data['content'] = $this->load->view('pelaksanaan/rab/detail/v_tambah', $data, TRUE);
+      $this->load->view('utama', $data);
+    }else redirect('c_login', 'refresh');
+  }
+
+  public function simpan_detail_pnd()
+  {   
+    $session['hasil'] = $this->session->userdata('logged_in');
+    $role = $session['hasil']->role;
+    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    {
+      if (isset($_POST['simpan'])) {
+        $newfile = $this->input->post('image-data', TRUE);
+    
+        define('UPLOAD_DIR', 'uploads/nota/');
+        $img = $newfile;
+        $img = str_replace('data:image/jpeg;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $file = UPLOAD_DIR . date('Ymd') . $this->input->post('id_rka_belanja') . '.jpg';
+        $success = file_put_contents($file, $data);
+        $path = $file;
+
+        $data = array(
+          'id_rka_belanja'     => $this->input->post('id_rka_belanja'),
+          'tgl_detail'    => $this->input->post('tgl_detail'),
+          'keterangan_detail'  => $this->input->post('barang'),
+          'harga_detail'       => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
+          'nota_detail'        => $path
+        );
+        $this->db->insert("tbl_detail", $data);
+        $this->session->set_flashdata('msg',
+          '<div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
+              </button>
+              <strong>Sukses!</strong> Berhasil ditambah.
+          </div>'
+        );
+      }
+      redirect('admin/c_pelaksanaan/detail/'.$this->input->post('id_rka_belanja'));
+    }else redirect('c_login', 'refresh');
+  }
+
+  public function edit_detail_pnd($id='', $idp=''){
+    $session['hasil'] = $this->session->userdata('logged_in');
+    $data['idp'] = $this->page_model->getId();
+    $role = $session['hasil']->role;
+    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    {
+      // var_dump($this->input->post('id_pelaksanaan'));
+      // echo $this->input->post('id_pelaksanaan');
+      $data['detail'] = $this->db->get_where("tbl_detail", array('id_detail' => "$id"))->row();
+      $data['page_title'] = 'Rencana Anggaran Biaya';
+      $this->db->order_by('id_rka_belanja', 'ASC');
+      $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
+      $this->db->order_by('nama_bidang', 'ASC');
+      $data['v_bidang'] = $this->db->get('tbl_bidang');
+      $this->db->order_by('nama_program', 'ASC');
+      $data['v_program'] = $this->db->get('tbl_program');
+      $this->db->order_by('nama_kegiatan', 'ASC');
+      $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
+      $this->db->order_by('nama_dusun', 'ASC');
+      $data['v_dusun'] = $this->db->get('ref_dusun');
+      $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
+      $data['id'] = $idp;
+      $data['id_detail'] = $id;
+      $data['content'] = $this->load->view('pelaksanaan/rab/detail/v_ubah', $data, TRUE);
+      $this->load->view('utama', $data);
+    }else redirect('c_login', 'refresh');
+  }
+
+  public function update_detail_pnd(){
+    $session['hasil'] = $this->session->userdata('logged_in');
     $role = $session['hasil']->role;
     if($this->session->userdata('logged_in') AND $role == 'Administrator')
     {
       if (isset($_POST['simpan'])) {
         $id = $this->input->post('id');
-          $pencairan = $this->input->post('pencairan');
-          if ($pencairan == '') {
-            $pencairan = 0;
-          }
-          $data = array(
-            'tgl'                => $this->input->post('tgl'),
-            'id_bidang'          => $this->input->post('id_bidang'),
-            'id_kegiatan'        => $this->input->post('id_kegiatan'),
-            'pemasukkan'         => preg_replace('/[Rp. ]/', '', $this->input->post('pemasukkan')),
-            'pencairan'          => preg_replace('/[Rp. ]/', '', $pencairan),
-            'permintaan'         => preg_replace('/[Rp. ]/', '', $this->input->post('permintaan')),
-            'jumlah'             => preg_replace('/[Rp. ]/', '', $this->input->post('jumlah')),
-            'sisa_dana'          => preg_replace('/[Rp. ]/', '', $this->input->post('sisa_dana')),
-            'tgl_spp'            => date('d-m-Y')
-          );
-          $this->db->update("tbl_spp", $data, array('id_spp' => "$id"));
-          $this->session->set_flashdata('msg',
-            '
-            <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
-                </button>
-                <strong>Sukses!</strong> Berhasil diupdate.
-            </div>'
-          );
-      }
-      redirect('admin/c_pelaksanaan/spp');
+        $newfile = $this->input->post('image-data', TRUE);
+    
+        define('UPLOAD_DIR', 'uploads/nota/');
+        $img = $newfile;
+        $img = str_replace('data:image/jpeg;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $file = UPLOAD_DIR . date('Ymd') . $this->input->post('id_rka_belanja') . '.jpg';
+        $success = file_put_contents($file, $data);
+        $path = $file;
 
-    }
+        $data = array(
+          'id_rka_belanja'     => $this->input->post('id_rka_belanja'),
+          'tgl_detail'    => $this->input->post('tgl_detail'),
+          'keterangan_detail'  => $this->input->post('barang'),
+          'harga_detail'       => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
+          'nota_detail'        => $path
+        );
+        $this->db->update("tbl_detail", $data, array('id_detail' => $this->input->post('id_detail'), 'id_rka_belanja' => $this->input->post('id_rka_belanja')));
+        $this->session->set_flashdata('msg',
+          '<div class="alert alert-success alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
+              </button>
+              <strong>Sukses!</strong> Berhasil diedit.
+          </div>'
+        );
+      }
+      redirect('admin/c_pelaksanaan/detail/'.$this->input->post('id_rka_belanja'));
+    }else redirect('c_login', 'refresh');
   }
 
-  function hapus_spp($id='') {
+  function hapus_detail_pnd($id='', $idp='') {
     $session['hasil'] = $this->session->userdata('logged_in');
     $role = $session['hasil']->role;
     if($this->session->userdata('logged_in') AND $role == 'Administrator')
     {
-            $this->db->delete("tbl_spp", array('id_spp' => "$id"));
-            $this->session->set_flashdata('msg',
-              '
-              <div class="alert alert-success alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
-                  </button>
-                  <strong>Sukses!</strong> Berhasil dihapus.
-              </div>'
-            );
-            redirect('admin/c_pelaksanaan/spp');
+      $this->db->delete("tbl_detail", array('id_detail' => "$id"));
+      $this->session->set_flashdata('msg',
+        '
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
+            </button>
+            <strong>Sukses!</strong> Berhasil dihapus.
+        </div>'
+      );
+      redirect('admin/c_pelaksanaan/detail/'.$idp);
     }
   }
 
-  function print_spp() {
-      $data['page_title'] = 'Surat Permintaan Pembayaran (SPP)';
-      $this->db->join('tbl_bidang', 'tbl_bidang.id_bidang=tbl_spp.id_bidang');
-      $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_spp.id_kegiatan');
-      $this->db->order_by('id_spp', 'DESC');
-      $data['v_data'] = $this->db->get('tbl_spp');
-      $this->load->view('pelaksanaan/spp/v_print', $data);
-  }
+  
+
 }
