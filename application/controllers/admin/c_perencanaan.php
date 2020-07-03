@@ -46,7 +46,7 @@ class C_perencanaan extends CI_Controller {
         $data['page_title'] = 'DATA RKA BELANJA | Rencana Anggaran Biaya (RAB)';
         $this->db->join('tbl_bidang', 'tbl_bidang.id_bidang=tbl_rka_belanja.id_bidang');
         $this->db->join('tbl_program', 'tbl_program.id_program=tbl_rka_belanja.id_program');
-        $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_rka_belanja.id_kegiatan', 'left');
+        $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_rka_belanja.id_kegiatan');
         $this->db->join('ref_dusun', 'ref_dusun.id_dusun=tbl_rka_belanja.id_dusun');
         $this->db->order_by('id_rka_belanja', 'DESC');
         $data['v_data'] = $this->db->get('tbl_rka_belanja');
@@ -586,7 +586,8 @@ class C_perencanaan extends CI_Controller {
           }
 
           function lists_apb_desa() {
-              $data['page_title'] = 'PEMBIAYAAN DESA';
+              $data['page_title'] = 'DANA CADANGAN';
+              $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_apb_desa.id_kegiatan');
               $this->db->order_by('id_apb_desa', 'DESC');
               $data['v_data'] = $this->db->get('tbl_apb_desa');
               $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
@@ -599,7 +600,9 @@ class C_perencanaan extends CI_Controller {
           $role = $session['hasil']->role;
           if($this->session->userdata('logged_in') AND $role == 'Administrator')
           {
-            $data['page_title'] = 'Tambah PEMBIAYAAN DESA';
+            $data['page_title'] = 'TAMBAH DANA CADANGAN';
+            $this->db->order_by('nama_kegiatan', 'ASC');
+            $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
             $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
             $data['content'] = $this->load->view('perencanaan/apb_desa/v_tambah', $data, TRUE);
             $this->load->view('utama', $data);
@@ -614,29 +617,26 @@ class C_perencanaan extends CI_Controller {
             if($this->session->userdata('logged_in') AND $role == 'Administrator')
             {
                     if (isset($_POST['simpan'])) {
-                      $nomor = $this->input->post('nomor');
                       $tahun = $this->input->post('tahun');
-                      if ($this->db->get_where("tbl_apb_desa", array('nomor' => "$nomor", 'tahun' => "$tahun"))->num_rows() != 0) {
+                      if ($this->db->get_where("tbl_apb_desa", array('tahun' => "$tahun"))->num_rows() != 0) {
                         $this->session->set_flashdata('msg',
                           '
                           <div class="alert alert-warning alert-dismissible" role="alert">
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
                              </button>
-                             <strong>Gagal!</strong> Maaf, Nomor <b>"'.$nomor.'"</b> dan Tahun <b>"'.$tahun.'"</b> sudah ada!.
+                             <strong>Gagal!</strong> Maaf, dan Tahun <b>"'.$tahun.'"</b> sudah ada!.
                           </div>'
                         );
                         redirect('admin/c_perencanaan/apb_desa/add');
                       }
                         $data = array(
-                          'nomor'              => $nomor,
                           'tahun'              => $tahun,
-                          'kode'               => $this->input->post('kode'),
+                          'nama_apb'           => $this->input->post('nama_apb'),
+                          'id_kegiatan'        => $this->input->post('id_kegiatan'),
                           'uraian'             => $this->input->post('uraian'),
-                          'jumlah'             => preg_replace('/[Rp. ]/', '', $this->input->post('jumlah')),
-                          'satuan'             => $this->input->post('satuan'),
-                          'harga'              => preg_replace('/[Rp. ]/', '', $this->input->post('harga')),
-                          'anggaran'           => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
+                          'jumlah'             => $this->input->post('jumlah'),
+                          'anggaran'              => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
                           'tgl_apb_desa'       => date('d-m-Y')
                         );
                         $this->db->insert("tbl_apb_desa", $data);
@@ -661,8 +661,9 @@ class C_perencanaan extends CI_Controller {
                 if($this->session->userdata('logged_in') AND $role == 'Administrator')
                 {
                   $data['hasil'] = $this->db->get_where("tbl_apb_desa", array('id_apb_desa' => "$id"))->row();
-
-                  $data['page_title'] = 'EDIT PEMBIAYAAN DESA';
+                  $data['page_title'] = 'EDIT DANA CADANGAN';
+                  $this->db->order_by('nama_kegiatan', 'ASC');
+                  $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
                   $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
                   $data['content'] = $this->load->view('perencanaan/apb_desa/v_ubah', $data, TRUE);
 
@@ -678,38 +679,14 @@ class C_perencanaan extends CI_Controller {
               if($this->session->userdata('logged_in') AND $role == 'Administrator')
               {
                 if (isset($_POST['simpan'])) {
-                  $id = $this->input->post('id');
-                  $id_nomor = $this->input->post('id_nomor');
-                  $id_tahun = $this->input->post('id_tahun');
-                  $nomor = $this->input->post('nomor');
-                  $tahun = $this->input->post('tahun');
-                  $cek_nomor = $this->db->get_where("tbl_apb_desa", array('nomor' => "$nomor", 'tahun' => "$tahun"));
-                  if ($id_nomor != $nomor or $id_tahun != $tahun) {
-                    if ($cek_nomor->row()->nomor == $nomor) {
-                      if ($cek_nomor->num_rows() != 0) {
-                        $this->session->set_flashdata('msg',
-                          '
-                          <div class="alert alert-warning alert-dismissible" role="alert">
-                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                               <span aria-hidden="true">&times;&nbsp; &nbsp;</span>
-                             </button>
-                             <strong>Gagal!</strong> Maaf, Nomor <b>"'.$nomor.'"</b> dan Tahun <b>"'.$tahun.'"</b> sudah ada!.
-                          </div>'
-                        );
-                        redirect('admin/c_perencanaan/edit_apb_desa/'.$id);
-                      }
-                    }
-                  }
-
+                $id = $this->input->post('id');
                     $data = array(
-                      'nomor'              => $nomor,
-                      'tahun'              => $tahun,
-                      'kode'               => $this->input->post('kode'),
-                      'uraian'             => $this->input->post('uraian'),
-                      'jumlah'             => preg_replace('/[Rp. ]/', '', $this->input->post('jumlah')),
-                      'satuan'             => $this->input->post('satuan'),
-                      'harga'              => preg_replace('/[Rp. ]/', '', $this->input->post('harga')),
-                      'anggaran'           => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran'))
+                          'tahun'              => $this->input->post('tahun'),
+                          'nama_apb'           => $this->input->post('nama_apb'),
+                          'id_kegiatan'        => $this->input->post('id_kegiatan'),
+                          'jumlah'             => $this->input->post('jumlah'),
+                          'anggaran'           => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
+                          'tgl_apb_desa'       => $this->input->post('tgl_apb_desa')
                     );
                     $this->db->update("tbl_apb_desa", $data, array('id_apb_desa' => "$id"));
                     $this->session->set_flashdata('msg',

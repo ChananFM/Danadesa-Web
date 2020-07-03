@@ -14,7 +14,7 @@
     <div class="panel-body">
         <div class="col-md-12" style="margin: 0px 0px 10px 0px;">
         <div class="col-md-2" style="margin-left: -15px;">
-          <?php echo form_open('admin/c_pelaksanaan/add_detail'); ?>
+          <?php echo form_open('admin/c_pelaksanaan/add_detail_pnd'); ?>
             <input type="hidden" name="id_rka_pendapatan" id="id_rka_pendapatan" value="<?php echo $id;?>" required/>
             <button type="submit" class="btn btn-primary" name="simpan" id="simpan"><i class="glyphicon glyphicon-plus"></i> Create</button>
           <?php echo form_close(); ?>
@@ -38,7 +38,7 @@
                          <th width="1%;">No.</th>
                           <th width="10%;">Tanggal </th>
                           <th width="10%;">Keterangan</th>
-                          <th width="5%;">Harga</th>
+                          <th width="5%;">Pendapatan</th>
                           <th width="8%;">Aksi</th>
                       </tr>
                   </thead>
@@ -51,6 +51,7 @@
                         <td><?= $baris->tgl_detail_p; ?></td>
                         <td><?= $baris->ket_detail_p; ?></td>
                         <td><span style="margin-left:-8px;">Rp.</span><span style="float:right;margin-right:-7px;"><?php echo number_format($baris->harga_detail_p,0,",","."); ?>,-</span></td>
+                        <td>
                           <a href="<?= base_url() ?>admin/c_pelaksanaan/edit_detail/<?php echo $baris->id_detail; ?>/<?php echo $id;?>" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>
                           <a href="<?= base_url() ?>admin/c_pelaksanaan/hapus_detail/<?php echo $baris->id_detail; ?>/<?php echo $id;?>" class="btn btn-danger btn-sm" onclick="return confirm('Anda Yakin?');"><i class="fa fa-trash"></i></a>
                         </td>

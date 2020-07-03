@@ -26,15 +26,16 @@ echo $this->session->flashdata('msg');
 <table id="table_id" class="table table-bordered table-striped display" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th width="1%" rowspan="2">No.</th>
-            <th width="16%" rowspan="2">Nama Pendapatan</th>
-            <th width="5%" rowspan="2">Tahun</th>
-            <th width="10%" rowspan="2">Pelaksana Kegiatan</th>
-            <th width="15%" rowspan="2">Kelompok</th>
-            <th width="17%" rowspan="2">Lokasi Kegiatan</th>
-            <th width="12%" rowspan="2">Jumlah</th>
-            <th width="15%" rowspan="2">Tanggal Pembahasan</th>
-            <th width="15%" rowspan="2">Aksi</th>
+            <th style="text-align: center">No.</th>
+            <th style="text-align: center">Nama Pendapatan</th>
+            <th style="text-align: center">Tahun</th>
+            <th style="text-align: center">Pelaksana Kegiatan</th>
+            <th style="text-align: center">Kelompok</th>
+            <th style="text-align: center">Lokasi Kegiatan</th>
+            <th style="text-align: center">Tanggal Pembahasan</th>
+            <th style="text-align: center">Rencana Pendapatan</th>
+            <th style="text-align: center">Pendapatan</th>
+            <th style="text-align: center">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -49,20 +50,27 @@ echo $this->session->flashdata('msg');
           <td><?php echo $baris->nama_kegiatan; ?></td>
           <td><?php echo $baris->kelompok; ?></td>
           <td><?php echo $baris->lokasi_kegiatan; ?></td>
-          <td>Rp.<span style="float:right;"><?php echo number_format($baris->jumlah, 0,",","."); ?>,-</span></td>
           <td><?php echo $this->page_model->tgl_id("$baris->tgl_pembahasan"); ?></td>
+          <td>Rp.<span style="float:right;"><?php echo number_format($baris->jumlah, 0,",","."); ?>,-</span></td>
+          <td>Rp.<span style="float:right;">
+          <?php
+            $this->db->select_sum('harga_detail_p')->from('tbl_detail_pendapatan')->where(array('id_rka_pendapatan' => $baris->id_rka_pendapatan));
+            $query = $this->db->get()->row('harga_detail_p');
+            // var_dump($query);
+            echo number_format($query, 0,",",".");
+          ?>,-</span></td>
           <td align="center">
             <a href="detail_pnd/<?php echo $baris->id_rka_pendapatan; ?>" class="btn btn-info btn-sm"><i class="fa fa-info-circle"></i></a>
             <!-- <a href="hapus_rka_pendapatan/<?php echo $baris->id_rka_pendapatan; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Anda Yakin?');"><i class="fa fa-trash"></i></a> -->
           </td>
         </tr>
       <?php
-      $total_jumlah += $baris->jumlah;
+      $total_jumlah += $query;
       } ?>
     </tbody>
     <tfoot>
       <tr>
-        <th colspan="6" style="text-align:right">Total :</th>
+        <th colspan="8" style="text-align:right">Total :</th>
         <th><span style="margin-left:-8px;">Rp.</span><span style="float:right;margin-right:-7px;"><?php echo number_format($total_jumlah,0,",","."); ?>,-</span></th>
         <th colspan="2"></th>
       </tr>

@@ -25,15 +25,14 @@
 					<input type="hidden" name="id" value="<?php echo $hasil->id_rka_pendapatan; ?>">
 
 					<div class="form-group">
-						 <label  class="col-md-4 control-label" for="lokasi_kegiatan">Lokasi Kegiatan</label>
+						 <label  class="col-md-4 control-label" for="jenis">Jenis</label>
 							<div class="col-md-8">
-								<input type="text" class="form-control input-md" name="lokasi_kegiatan" value="<?php echo $hasil->lokasi_kegiatan; ?>" id="lokasi_kegiatan" size="100" placeholder="Lokasi Kegiatan" required/>
-								<span>&nbsp;</span>
-					     </div>
+							 <input type="text" class="form-control input-md" name="jenis" value="<?php echo $hasil->jenis; ?>" id="jenis" size="100" placeholder="Jenis" required/>
+							 <span>&nbsp;</span>
+ 				      </div>
 					</div>
-
 					<div class="form-group">
-					 <label  class="col-md-4 control-label" for="id_kegiatan">Pelaksana Kegiatan</label>
+					 <label  class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
 					 <div class="col-md-8">
 						<select class="form-control cari_dusun" name="id_kegiatan" required>
 							<option value=""></option>
@@ -46,6 +45,9 @@
 						<span>&nbsp;</span>
 						</div>
 					</div>
+					
+
+					
 					<div class="form-group">
 						 <label  class="col-md-4 control-label" for="tahun_pendapatan">Tahun</label>
 							<div class="col-md-8">
@@ -67,20 +69,13 @@
 							 <span>&nbsp;</span>
  				      </div>
 					</div>
-					<div class="form-group">
-						 <label  class="col-md-4 control-label" for="jenis">Jenis</label>
-							<div class="col-md-8">
-							 <input type="text" class="form-control input-md" name="jenis" value="<?php echo $hasil->jenis; ?>" id="jenis" size="100" placeholder="Jenis" required/>
-							 <span>&nbsp;</span>
- 				      </div>
-					</div>
 					
 					<div class="form-group">
-						 <label  class="col-md-4 control-label" for="jumlah">Jumlah</label>
+						 <label  class="col-md-4 control-label" for="lokasi_kegiatan">Lokasi Pendapatan</label>
 							<div class="col-md-8">
-							 <input type="text" class="form-control input-md" name="jumlah" value="Rp. <?php echo number_format($hasil->jumlah,0,",","."); ?>" id="jumlah" size="100" placeholder="Jumlah" required/>
-							 <span>&nbsp;</span>
- 				      </div>
+								<input type="text" class="form-control input-md" name="lokasi_kegiatan" value="<?php echo $hasil->lokasi_kegiatan; ?>" id="lokasi_kegiatan" size="100" placeholder="Lokasi Pembahasan" required/>
+								<span>&nbsp;</span>
+					     </div>
 					</div>
 					<div class="form-group">
 						 <label  class="col-md-4 control-label" for="tgl_pembahasan">Tanggal Pembahasan</label>
@@ -88,6 +83,13 @@
 							 <input type="text" class="form-control input-md" name="tgl_pembahasan" id="tgl_pembahasan" value="<?php if($hasil->tgl_pembahasan == ''){echo date('d-m-Y');}else{echo $hasil->tgl_pembahasan;} ?>" size="10" placeholder="Tanggal Pembahasan" required/>
 							 <span>&nbsp;</span>
 	 						</div>
+					</div>
+					<div class="form-group">
+						 <label  class="col-md-4 control-label" for="jumlah">Rencana Pendapatan</label>
+							<div class="col-md-8">
+							 <input type="text" class="form-control input-md" name="jumlah" value="Rp. <?php echo number_format($hasil->jumlah,0,",","."); ?>" id="jumlah" size="100" placeholder="Rencana Pendapatan" required/>
+							 <span>&nbsp;</span>
+ 				      </div>
 					</div>
 
 				<hr>
@@ -117,7 +119,7 @@
 	$(document).ready(function() {
 	  nav_active();
 	  $(".cari_dusun").select2({
-			placeholder: "Pilih Tingkat Kegiatan"
+			placeholder: "Pilih Ketua Kegiatan"
 	  });
       $(".cari_tahun").select2({
 			placeholder: "Pilih Tahun"

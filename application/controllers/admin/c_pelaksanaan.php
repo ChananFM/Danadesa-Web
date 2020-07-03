@@ -265,7 +265,7 @@ class C_pelaksanaan extends CI_Controller {
       {
         // $data['hasil'] = $this->db->get_where("tbl_pelaksanaan", array('id_pelaksanaan' => "$id"))->row();
         $data['rka'] = $this->db->get_where('tbl_detail',array('id_rka_belanja'=>"$id"));
-        $data['page_title'] = 'Rencana Anggaran Biaya';
+        $data['page_title'] = 'Detail Pelaksanaan Kegiatan';
         $this->db->order_by('id_rka_belanja', 'ASC');
         $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
         $this->db->order_by('nama_bidang', 'ASC');
@@ -294,7 +294,7 @@ class C_pelaksanaan extends CI_Controller {
     {
       // var_dump($this->input->post('id_pelaksanaan'));
       // echo $this->input->post('id_pelaksanaan');
-      $data['page_title'] = 'Rencana Anggaran Biaya';
+      $data['page_title'] = 'Detail Pelaksanaan Kegiatan';
       $this->db->order_by('id_rka_belanja', 'ASC');
       $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
       $this->db->order_by('nama_bidang', 'ASC');
@@ -360,7 +360,7 @@ class C_pelaksanaan extends CI_Controller {
       // var_dump($this->input->post('id_pelaksanaan'));
       // echo $this->input->post('id_pelaksanaan');
       $data['detail'] = $this->db->get_where("tbl_detail", array('id_detail' => "$id"))->row();
-      $data['page_title'] = 'Rencana Anggaran Biaya';
+        $data['page_title'] = 'Detail Pelaksanaan Kegiatan';
       $this->db->order_by('id_rka_belanja', 'ASC');
       $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
       $this->db->order_by('nama_bidang', 'ASC');
@@ -443,27 +443,28 @@ class C_pelaksanaan extends CI_Controller {
   }
 
   //pendapatan
-    function pls_pendapatan($aksi='',$id='')    {
-    $session['hasil'] = $this->session->userdata('logged_in');
-    $role = $session['hasil']->role;
-    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    function pls_pendapatan($aksi='',$id='')    
     {
-      if ($aksi == 'add') {
-        $this->add_rka_pendapatan();
-      }elseif ($aksi == 'print') {
-        $this->print_rka_pendapatan();
-      }else {
-        $this->lists_rka_pendapatan();
+      $session['hasil'] = $this->session->userdata('logged_in');
+      $role = $session['hasil']->role;
+      if($this->session->userdata('logged_in') AND $role == 'Administrator')
+      {
+        if ($aksi == 'add') {
+          $this->add_rka_pendapatan();
+        }elseif ($aksi == 'print') {
+          $this->print_rka_pendapatan();
+        }else {
+          $this->lists_rka_pendapatan();
+        }
+      }else{
+        redirect('c_login', 'refresh');
       }
-    }else{
-      redirect('c_login', 'refresh');
-    }
     }
 
     function lists_rka_pendapatan() {
-         $data['page_title'] = 'DATA PELAKSANAAN PENDAPATAN';
+        $data['page_title'] = 'DATA PELAKSANAAN PENDAPATAN';
         $this->db->join('tbl_kegiatan', 'tbl_kegiatan.id_kegiatan=tbl_rka_pendapatan.id_kegiatan', 'left');
-          $this->db->order_by('id_rka_pendapatan', 'DESC');
+        $this->db->order_by('id_rka_pendapatan', 'DESC');
         $data['v_data'] = $this->db->get('tbl_rka_pendapatan');
         $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
         $data['content'] = $this->load->view('pelaksanaan/pls_pendapatan/v_list', $data, TRUE);
@@ -471,21 +472,22 @@ class C_pelaksanaan extends CI_Controller {
     }
 
       //deail pendapatan
-    function detail_pnd($aksi='') {
-    $session['hasil'] = $this->session->userdata('logged_in');
-    $role = $session['hasil']->role;
-    if($this->session->userdata('logged_in') AND $role == 'Administrator')
+    function detail_pnd($aksi='') 
     {
-      if ($aksi == 'add') {
+      $session['hasil'] = $this->session->userdata('logged_in');
+      $role = $session['hasil']->role;
+      if($this->session->userdata('logged_in') AND $role == 'Administrator')
+      {
+        if ($aksi == 'add') {
         // var_dump($id);
-        $this->add_detail_pnd();
-      }elseif ($aksi == 'print') {
-        $this->print_detail_pnd();
-      }else {
-        $this->lists_detail_pnd($aksi);
-      }
-    }else redirect('c_login', 'refresh');
-  }
+          $this->add_detail_pnd();
+        }elseif ($aksi == 'print') {
+          $this->print_detail_pnd();
+        }else {
+          $this->lists_detail_pnd($aksi);
+        }
+      }else redirect('c_login', 'refresh');
+    }
 
   function lists_detail_pnd($id=''){
       $session['hasil'] = $this->session->userdata('logged_in');
@@ -496,7 +498,7 @@ class C_pelaksanaan extends CI_Controller {
         $data['pnd'] = $this->db->get_where('tbl_detail_pendapatan',array('id_rka_pendapatan'=>"$id"));
         $this->db->order_by('id_rka_pendapatan', 'ASC');
         $data['v_rka_pendapatan'] = $this->db->get('tbl_rka_pendapatan');
-        $data['page_title'] = 'Rencana Anggaran Biaya';
+      $data['page_title'] = 'Detail Pelaksanaan Pendapatan';
         $this->db->order_by('nama_kegiatan', 'ASC');
         $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
         $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
@@ -517,20 +519,14 @@ class C_pelaksanaan extends CI_Controller {
     {
       // var_dump($this->input->post('id_pelaksanaan'));
       // echo $this->input->post('id_pelaksanaan');
-      $data['page_title'] = 'Rencana Anggaran Biaya';
-      $this->db->order_by('id_rka_belanja', 'ASC');
-      $data['v_rka_belanja'] = $this->db->get('tbl_rka_belanja');
-      $this->db->order_by('nama_bidang', 'ASC');
-      $data['v_bidang'] = $this->db->get('tbl_bidang');
-      $this->db->order_by('nama_program', 'ASC');
-      $data['v_program'] = $this->db->get('tbl_program');
+      $data['page_title'] = 'Detail Pelaksanaan Pendapatan';
+      $this->db->order_by('id_rka_pendapatan', 'ASC');
+      $data['v_rka_pendapatan'] = $this->db->get('tbl_rka_pendapatan');
       $this->db->order_by('nama_kegiatan', 'ASC');
       $data['v_kegiatan'] = $this->db->get('tbl_kegiatan');
-      $this->db->order_by('nama_dusun', 'ASC');
-      $data['v_dusun'] = $this->db->get('ref_dusun');
       $data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-      $data['id'] = $this->input->post('id_rka_belanja');
-      $data['content'] = $this->load->view('pelaksanaan/rab/detail/v_tambah', $data, TRUE);
+      $data['id'] = $this->input->post('id_rka_pendapatan');
+      $data['content'] = $this->load->view('pelaksanaan/pls_pendapatan/pnd_detail/v_tambah', $data, TRUE);
       $this->load->view('utama', $data);
     }else redirect('c_login', 'refresh');
   }
@@ -549,18 +545,17 @@ class C_pelaksanaan extends CI_Controller {
         $img = str_replace('data:image/jpeg;base64,', '', $img);
         $img = str_replace(' ', '+', $img);
         $data = base64_decode($img);
-        $file = UPLOAD_DIR . date('Ymd') . $this->input->post('id_rka_belanja') . '.jpg';
+        $file = UPLOAD_DIR . date('Ymd') . $this->input->post('id_rka_pendapatan') . '.jpg';
         $success = file_put_contents($file, $data);
         $path = $file;
 
         $data = array(
-          'id_rka_belanja'     => $this->input->post('id_rka_belanja'),
-          'tgl_detail'    => $this->input->post('tgl_detail'),
-          'keterangan_detail'  => $this->input->post('barang'),
-          'harga_detail'       => preg_replace('/[Rp. ]/', '', $this->input->post('anggaran')),
-          'nota_detail'        => $path
+          'id_rka_pendapatan'     => $this->input->post('id_rka_pendapatan'),
+          'tgl_detail_p'          => $this->input->post('tgl_detail_p'),
+          'ket_detail_p'          => $this->input->post('ket_detail_p'),
+          'harga_detail_p'        => preg_replace('/[Rp. ]/', '', $this->input->post('harga_detail_p'))
         );
-        $this->db->insert("tbl_detail", $data);
+        $this->db->insert("tbl_detail_pendapatan", $data);
         $this->session->set_flashdata('msg',
           '<div class="alert alert-success alert-dismissible" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -570,7 +565,7 @@ class C_pelaksanaan extends CI_Controller {
           </div>'
         );
       }
-      redirect('admin/c_pelaksanaan/detail/'.$this->input->post('id_rka_belanja'));
+      redirect('admin/c_pelaksanaan/detail_pnd/'.$this->input->post('id_rka_pendapatan'));
     }else redirect('c_login', 'refresh');
   }
 

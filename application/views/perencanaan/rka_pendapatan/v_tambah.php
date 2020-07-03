@@ -22,7 +22,28 @@
 				 ?>
 
 			<?php echo form_open('admin/c_perencanaan/simpan_rka_pendapatan'); ?>
-
+	
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="jenis">Nama Pendapatan</label>
+						<div class="col-md-8">
+						 <input type="text" class="form-control input-md" name="jenis" id="jenis" size="100" placeholder="Nama Pendapatan" required/>
+						 <span>&nbsp;</span>
+ 						</div>
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
+						<div class="col-md-8">
+						<select class="form-control cari_dusun" name="id_kegiatan" required>
+								<option value=""></option>
+								<?php
+								foreach ($c_dusun->result() as $baris) {?>
+									<option value="<?php echo $baris->id_kegiatan; ?>"><?php echo $baris->nama_kegiatan; ?></option>
+								<?php
+								} ?>
+							</select>
+						 <span>&nbsp;</span>
+ 						</div>
+				</div>
 				<div class="form-group">
 					 <label  class="col-md-4 control-label" for="tahun_pendapatan">Tahun</label>
 					 <div class="col-md-8">
@@ -37,20 +58,7 @@
 						 <span>&nbsp;</span>
  						</div>
 				</div>
-				<div class="form-group">
-					 <label  class="col-md-4 control-label" for="id_kegiatan">Tingkat Kegiatan</label>
-						<div class="col-md-8">
-						<select class="form-control cari_dusun" name="id_kegiatan" required>
-								<option value=""></option>
-								<?php
-								foreach ($c_dusun->result() as $baris) {?>
-									<option value="<?php echo $baris->id_kegiatan; ?>"><?php echo $baris->nama_kegiatan; ?></option>
-								<?php
-								} ?>
-							</select>
-						 <span>&nbsp;</span>
- 						</div>
-				</div>
+				
 
 				<div class="form-group">
 					 <label  class="col-md-4 control-label" for="kelompok">Kelompok</label>
@@ -59,30 +67,24 @@
 						 <span>&nbsp;</span>
  						</div>
 				</div>
+				
 				<div class="form-group">
-					 <label  class="col-md-4 control-label" for="jenis">Jenis</label>
+					 <label  class="col-md-4 control-label" for="lokasi_kegiatan">Lokasi Pendapatan</label>
 						<div class="col-md-8">
-						 <input type="text" class="form-control input-md" name="jenis" id="jenis" size="100" placeholder="Jenis" required/>
-						 <span>&nbsp;</span>
- 						</div>
-				</div>
-				<div class="form-group">
-					 <label  class="col-md-4 control-label" for="lokasi_kegiatan">Lokasi Kegiatan</label>
-						<div class="col-md-8">
-							<textarea name="lokasi_kegiatan" id="lokasi_kegiatan" class="form-control" rows="3" cols="80" placeholder="Lokasi Kegiatan" required></textarea>
+							<textarea name="lokasi_kegiatan" id="lokasi_kegiatan" class="form-control" rows="3" cols="80" placeholder="Lokasi Pendapatan" required></textarea>
 							<span>&nbsp;</span>
 							</div>
 				</div>
 				<div class="form-group">
-					 <label  class="col-md-4 control-label" for="jumlah">Jumlah</label>
+					 <label  class="col-md-4 control-label" for="jumlah">Rencana Pendapatan</label>
 						<div class="col-md-8">
-						 <input type="text" class="form-control input-md" name="jumlah" id="jumlah" size="100" placeholder="Jumlah" required/>
+						 <input type="text" class="form-control input-md" name="jumlah" id="jumlah" size="100" placeholder="Rencana Pendapatan" required/>
 						 <span>&nbsp;</span>
  						</div>
 				</div>
 				<div class="form-group">
 					 <label  class="col-md-4 control-label" for="tgl_pembahasan">Tanggal Pembahasan</label>
-						<div class="col-md-4">
+						<div class="col-md-8">
 						 <input type="text" class="form-control input-md" name="tgl_pembahasan" id="tgl_pembahasan" value="<?php echo date('d-m-Y'); ?>" size="10" placeholder="Tanggal Pembahasan" required/>
 						 <span>&nbsp;</span>
  						</div>
@@ -115,7 +117,7 @@ function nav_active(){
 $(document).ready(function() {
   nav_active();
   $(".cari_dusun").select2({
-			placeholder: "Pilih Tingkat Kegiatan"
+			placeholder: "Pilih Ketua Kegiatan"
 	});
   $(".cari_tahun").select2({
 			placeholder: "Pilih Tahun"

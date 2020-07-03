@@ -27,13 +27,13 @@ echo $this->session->flashdata('msg');
     <thead>
         <tr>
             <th width="1%" rowspan="2">No.</th>
+            <th width="16%" rowspan="2">Nama Pendapatan</th>
             <th width="5%" rowspan="2">Tahun</th>
             <th width="10%" rowspan="2">Pelaksana Kegiatan</th>
             <th width="15%" rowspan="2">Kelompok</th>
-            <th width="16%" rowspan="2">Jenis</th>
-            <th width="17%" rowspan="2">Lokasi Kegiatan</th>
-            <th width="12%" rowspan="2">Jumlah</th>
+            <th width="17%" rowspan="2">Lokasi Pendapatan</th>
             <th width="15%" rowspan="2">Tanggal Pembahasan</th>
+            <th width="12%" rowspan="2">Rencana Pendapatan</th>
             <th width="15%" rowspan="2">Aksi</th>
         </tr>
     </thead>
@@ -44,13 +44,13 @@ echo $this->session->flashdata('msg');
       foreach ($v_data->result() as $baris) {?>
         <tr>
           <th><?php echo $no++; ?>.</th>
+          <td><?php echo $baris->jenis; ?></td>
           <td><?php echo $baris->tahun_pendapatan; ?></td>
           <td><?php echo $baris->nama_kegiatan; ?></td>
           <td><?php echo $baris->kelompok; ?></td>
-          <td><?php echo $baris->jenis; ?></td>
           <td><?php echo $baris->lokasi_kegiatan; ?></td>
-          <td>Rp.<span style="float:right;"><?php echo number_format($baris->jumlah, 0,",","."); ?>,-</span></td>
           <td><?php echo $this->page_model->tgl_id("$baris->tgl_pembahasan"); ?></td>
+          <td>Rp.<span style="float:right;"><?php echo number_format($baris->jumlah, 0,",","."); ?>,-</span></td>
           <td align="center">
             <a href="edit_rka_pendapatan/<?php echo $baris->id_rka_pendapatan; ?>" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>
             <a href="hapus_rka_pendapatan/<?php echo $baris->id_rka_pendapatan; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Anda Yakin?');"><i class="fa fa-trash"></i></a>

@@ -24,7 +24,7 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="barang">Barang</label>
 					<div class="col-md-8">
-						<textarea name="barang" id="barang" rows="5" cols="80" placeholder="Barang"></textarea>
+						<textarea name="barang" id="barang" rows="3" cols="80" class="form-control" placeholder="Barang"></textarea>
 						<span>&nbsp;</span>
 					</div>
 				</div>

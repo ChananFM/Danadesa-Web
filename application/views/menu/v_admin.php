@@ -65,7 +65,7 @@
                   <a href="<?php echo site_url('admin/c_perencanaan/rka_pendapatan/');?>" >RKA Pendapatan</a>
                 </li>
                 <li id="nav-apb-desa" class="">
-                  <a href="<?php echo site_url('admin/c_perencanaan/apb_desa/');?>" >Pelaksanaan Dana Cadangan</a>
+                  <a href="<?php echo site_url('admin/c_perencanaan/apb_desa/');?>" >Dana Cadangan</a>
                 </li>
               </ul>
             </div>

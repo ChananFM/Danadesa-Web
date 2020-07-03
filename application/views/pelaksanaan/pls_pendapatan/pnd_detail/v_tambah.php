@@ -19,41 +19,34 @@
 			?>
 
 			<?php echo form_open('admin/c_pelaksanaan/simpan_detail'); ?>
-				<input type="hidden" name="id_rka_belanja" id="id_rka_belanja" value="<?php echo $id; ?>" required />
-				<input type="hidden" name="tgl_detail" id="tgl_detail" value="<?php echo date('Y-m-d'); ?>" required />
+				<input type="hidden" name="id_rka_pendapatan" id="id_rka_pendapatan" value="<?php echo $id; ?>" required />
+
 				<div class="form-group">
-					<label class="col-md-4 control-label" for="barang">Barang</label>
-					<div class="col-md-8">
-						<textarea name="barang" id="barang" rows="5" cols="80" placeholder="Barang"></textarea>
-						<span>&nbsp;</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="anggaran">Harga</label>
-					<div class="col-md-8">
-						<input type="text" class="form-control input-md" name="anggaran" id="anggaran" size="100" placeholder="Anggaran" required />
-						<span>&nbsp;</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="image-editor ">
-						<label class="col-md-4 control-label" for="bukti">Bukti Belanja</label>
+					 <label  class="col-md-4 control-label" for="tgl_detail_p">Tanggal</label>
 						<div class="col-md-8">
-							<div id="lihat">
-								<div class="cropit-image-preview"></div>
-								<input type="range" class="cropit-image-zoom-input" style="width: 200px">
-								<br>
-							</div>
-							<input type="file" id="image" class="cropit-image-input custom" accept="image/*">
-							<input type="hidden" name="image-data" class="hidden-image-data" />
-							<span>&nbsp;</span>
-						</div>
+						 <input type="text" class="form-control input-md" name="tgl_detail_p" id="tgl_detail_p" value="<?php echo date('d-m-Y'); ?>" size="10" placeholder="Pilih Tanggal" required/>
+						 <span>&nbsp;</span>
+ 						</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="ket_detail_p">Keterangan</label>
+					<div class="col-md-8">
+						<textarea name="ket_detail_p" id="ket_detail_p" rows="3" class="form-control" cols="80" placeholder="Keterangan"></textarea>
+						<span>&nbsp;</span>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="harga_detail_p">Pendapatan</label>
+					<div class="col-md-8">
+						<input type="text" class="form-control input-md" name="harga_detail_p" id="harga_detail_p" size="100" placeholder="Pendapatan" required />
+						<span>&nbsp;</span>
+					</div>
+				</div>
+				
 				<hr>
 				<div class="form-group">
 					<label class="col-md-0 control-label" for="simpan"></label>
-					<button type="button" class="btn btn-danger" name="batal" id="batal" onclick="location.href='<?= base_url() ?>admin/c_pelaksanaan/detail/<?php echo $id; ?>'">Batal</button>
+					<button type="button" class="btn btn-danger" name="batal" id="batal" onclick="location.href='<?= base_url() ?>admin/c_pelaksanaan/detail_pnd/<?php echo $id; ?>'">Batal</button>
 					<button type="submit" class="btn btn-success" name="simpan" id="simpan" style="float:right;">Simpan</button>
 				</div>
 			<?php echo form_close(); ?>
@@ -177,7 +170,8 @@
 	// very simple to use!
 	$(document).ready(function() {
 		nav_active();
-		document.getElementById("lihat").style.display = "block";
-		$('#anggaran').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+		// document.getElementById("lihat").style.display = "block";
+  		$('#harga_detail_p').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+  		$( "#tgl_pembahasan" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
 </script>

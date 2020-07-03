@@ -35,13 +35,15 @@
 			<?php echo form_open('admin/c_perencanaan/simpan_apb_desa'); ?>
 
 				<div class="form-group">
-					 <label  class="col-md-6 control-label" for="nomor">Nomor</label>
-					 <label  class="col-md-6 control-label" for="tahun">Tahun</label>
-						<div class="col-md-6">
-						 <input type="text" class="form-control input-md" name="nomor" id="nomor" size="100" placeholder="Nomor" value="<?php echo $no_urut; ?>" required/>
-						 <span>&nbsp;</span>
+					 <label  class="col-md-4 control-label" for="nama_apb">Nama Dana Cadangan</label>
+						<div class="col-md-8">
+						 <input type="text" class="form-control input-md" name="nama_apb" id="nama_apb" size="100" placeholder="Nama Dana Cadangan"  required/>
+ 						<span>&nbsp;</span>
  						</div>
-					 	<div class="col-md-6">
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="tahun">Tahun</label>
+						<div class="col-md-8">
 						 <select class="form-control cari_tahun" name="tahun" required>
 							 <option value=""></option>
 							 <?php
@@ -54,6 +56,41 @@
  						</div>
 				</div>
 				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="id_kegiatan">Ketua Kegiatan</label>
+						<div class="col-md-8">
+						<select class="form-control cari_dusun" name="id_kegiatan" required>
+								<option value=""></option>
+								<?php
+								foreach ($v_kegiatan->result() as $baris) {?>
+									<option value="<?php echo $baris->id_kegiatan; ?>"><?php echo $baris->nama_kegiatan; ?></option>
+								<?php
+								} ?>
+							</select>
+						 <span>&nbsp;</span>
+ 						</div>
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="tgl_apb_desa">Tanggal Pembahasan</label>
+						<div class="col-md-8">
+						 <input type="text" class="form-control input-md" name="tgl_apb_desa" id="tgl_apb_desa" value="<?php echo date('d-m-Y'); ?>" size="10" placeholder="Tanggal Pembahasan" required/>
+ 						<span>&nbsp;</span>
+ 						</div>
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="jumlah">Satuan</label>
+						<div class="col-md-8">
+						 <input type="text" class="form-control input-md" name="jumlah" id="jumlah" size="100" placeholder="Satuan"  required/>
+ 						<span>&nbsp;</span>
+ 						</div>
+				</div>
+				<div class="form-group">
+					 <label  class="col-md-4 control-label" for="anggaran">Harga</label>
+						<div class="col-md-8">
+						 <input type="text" class="form-control input-md" name="anggaran" id="anggaran" size="100" placeholder="Anggaran" required />
+						<span>&nbsp;</span>
+ 						</div>
+				</div>
+				<!-- <div class="form-group">
 					<div class="col-md-12">
 						<div class="panel panel-info">
  						 <div class="panel-heading">
@@ -113,7 +150,7 @@
  						 </div>
  					 </div>
 					</div>
-				</div>
+				</div> -->
 
 			<hr>
 			<div class="form-group">
@@ -141,13 +178,15 @@ function nav_active(){
 // very simple to use!
 $(document).ready(function() {
   nav_active();
+    $(".cari_dusun").select2({
+			placeholder: "Pilih Ketua Kegiatan"
+	});
 	$(".cari_tahun").select2({
 			placeholder: "Pilih Tahun"
 	});
 	// $('#uraian').maskMoney({prefix:'', thousands:'.', decimal:',', precision:0});
-	$('#jumlah').maskMoney({prefix:'', thousands:'.', decimal:',', precision:0});
-	$('#harga').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
 	$('#anggaran').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+    $( "#tgl_apb_desa" ).datepicker({ dateFormat: 'dd-mm-yy' });
   // $( "#ditetapkan_tgl" ).datepicker({ dateFormat: 'dd-mm-yy' });
 });
 </script>
